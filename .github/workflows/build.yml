@@ -14,4 +14,4 @@ jobs:
       - name: Setup ccache
         uses: iTrooz/ccache-action@main
 
-      - run: ccache gcc main.c
+      - run: ccache gcc -c main.c
