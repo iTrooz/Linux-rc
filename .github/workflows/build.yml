@@ -9,8 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Upload artifact
-        uses: iTrooz/upload-artifact@main
-        with:
-          name: my-artifact
-          path: /bin/ls
+      - uses: actions/checkout@v4
+
+      - name: Setup ccache
+        uses: iTrooz/ccache-action@main
+
+      - run: ccache gcc main.c
