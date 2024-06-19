@@ -21,7 +21,7 @@ jobs:
           restore-keys: linux
 
       - name: Clone Linux Kernel
-        run: git clone https://github.com/torvalds/linux linux
+        run: git clone --depth 1 https://github.com/torvalds/linux linux
       
       - name: Build Linux Kernel
         run: |
