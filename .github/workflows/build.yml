@@ -11,9 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup ccache
-        uses: iTrooz/ccache-action@main
-        with:
-          cleanUnused: true
+      - name: Clone Linux Kernel
+        run: git clone https://github.com/torvalds/linux linux
+      
+      - name: Build Linux Kernel
+        run: |
+          cd linux
+          make defconfig
+          make -j $(nproc)
 
-      - run: ccache gcc -c main.c
+      - name: Package Linux Kernel
+        run: |
+          ./package.sh
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-kernel
+          path: linuxAB.tar.gz
