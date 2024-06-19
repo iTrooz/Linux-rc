@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup ccache
+        uses:  hendrikmuhs/ccache-action@v1
+        with:
+          key: linux-${{ github.run_id }}
+          restore-keys: linux
+
       - name: Clone Linux Kernel
         run: git clone https://github.com/torvalds/linux linux
       
@@ -18,7 +24,7 @@ jobs:
         run: |
           cd linux
           make defconfig
-          make -j $(nproc)
+          CC="ccache gcc" make -j $(nproc)
 
       - name: Package Linux Kernel
         run: |
