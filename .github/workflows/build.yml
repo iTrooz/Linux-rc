@@ -30,7 +30,8 @@ jobs:
         run: |
           cd linux
           make defconfig
-          CC="ccache gcc" make -j $(nproc)
+          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+          make -j $(nproc)
 
       - name: Package Linux Kernel
         run: |
