@@ -14,7 +14,8 @@ fi
 rm -rf $pkg_dir
 mkdir $pkg_dir
 
-cd linux
+# Go to source directory
+cd $src_dir
 
 # Package kernel
 mkdir $pkg_dir/boot
@@ -27,4 +28,5 @@ export INSTALL_MOD_STRIP=1
 time make modules_install -j $(nproc)
 
 # Finalize package
+cd $pkg_dir
 tar -czvf ../linuxAB.tar.gz *
