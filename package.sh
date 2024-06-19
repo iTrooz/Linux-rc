@@ -22,7 +22,9 @@ cp -v arch/x86/boot/bzImage $pkg_dir/boot/vmlinuz-linuxAB
 
 # Package modules
 # No ZSTD_CLEVEL because it takes too long
-time INSTALL_MOD_PATH=$pkg_dir INSTALL_MOD_STRIP=1 make modules_install -j $(nproc)
+export INSTALL_MOD_PATH=$pkg_dir
+export INSTALL_MOD_STRIP=1
+time make modules_install -j $(nproc)
 
 # Finalize package
 tar -czvf ../linuxAB.tar.gz *
