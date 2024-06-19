@@ -23,9 +23,6 @@ jobs:
       - name: Clone Linux Kernel
         run: git clone --depth 1 https://github.com/torvalds/linux linux
 
-      - name: Setup tmate
-        uses: mxschmitt/action-tmate@v3
-      
       - name: Build Linux Kernel
         run: |
           cd linux
