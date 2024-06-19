@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Dependencies
-        run: sudo apt-get install -y libelf
+        run: sudo apt-get install -y libelf-dev
 
       - name: Setup ccache
         uses:  hendrikmuhs/ccache-action@v1
