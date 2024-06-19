@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Dependencies
+        run: sudo apt-get install -y libelf
+
       - name: Setup ccache
         uses:  hendrikmuhs/ccache-action@v1
         with:
