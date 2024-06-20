@@ -17,6 +17,7 @@ jobs:
       - name: Check if we should build
         id: check_build
         run: |
+          echo "latest_upstream_tag=$(./get_latest_upstream_tag.sh)" >> $GITHUB_OUTPUT
           ./should_build.sh
           if [ $? -eq 0 ]; then
             echo "::set-output name=should_build::true"
@@ -58,3 +59,10 @@ jobs:
         with:
           name: linux-kernel
           path: linuxAB.tar.gz
+
+      - name: Create release
+        if: steps.check_build.outputs.should_build == 'true'
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: linuxAB.tar.gz
+          tag: ${{steps.check_build.outputs.latest_upstream_tag}}
