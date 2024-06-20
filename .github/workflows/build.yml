@@ -32,22 +32,22 @@ jobs:
           fi
 
       - name: Install Dependencies
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         run: sudo apt-get install -y libelf-dev
 
       - name: Setup ccache
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         uses:  hendrikmuhs/ccache-action@v1
         with:
           key: linux-${{ github.run_id }}
           restore-keys: linux
 
       - name: Clone Linux Kernel
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         run: git clone --depth 1 --branch $(./get_latest_upstream_tag.sh) https://github.com/torvalds/linux linux
 
       - name: Build Linux Kernel
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
           cd linux
           make defconfig
@@ -55,19 +55,19 @@ jobs:
           make -j $(nproc)
 
       - name: Package Linux Kernel
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
           ./package.sh
       
       - name: Upload Artifact
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: linux-kernel
           path: linuxRC.tar.gz
 
       - name: Create release
-        if: ${{ env.SHOULD_BUILD }} == 'true'
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: linuxRC.tar.gz
