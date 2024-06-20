@@ -60,11 +60,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-kernel
-          path: linuxAB.tar.gz
+          path: linuxRC.tar.gz
 
       - name: Create release
         if: ${{ env.SHOULD_BUILD }} == 'true'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: linuxAB.tar.gz
+          artifacts: linuxRC.tar.gz
           tag: ${{ env.LATEST_UPSTREAM_TAG }}

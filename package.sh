@@ -3,7 +3,7 @@ set -xe
 
 src_dir=$(realpath "linux")
 pkg_dir=$(realpath "package")
-name="linuxAB" # TODO
+name="linuxRC"
 
 if [ ! -d "$src_dir" ]; then
     echo "Error: Source directory '$src_dir' does not exist."
@@ -19,7 +19,7 @@ cd $src_dir
 
 # Package kernel
 mkdir $pkg_dir/boot
-cp -v arch/x86/boot/bzImage $pkg_dir/boot/vmlinuz-linuxAB
+cp -v arch/x86/boot/bzImage $pkg_dir/boot/vmlinuz-linuxRC
 
 # Package modules
 # No ZSTD_CLEVEL because it takes too long
@@ -29,4 +29,4 @@ time make modules_install -j $(nproc)
 
 # Finalize package
 cd $pkg_dir
-tar -czvf ../linuxAB.tar.gz *
+tar -czvf ../linuxRC.tar.gz *
