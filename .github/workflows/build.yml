@@ -22,6 +22,7 @@ jobs:
 
       - name: Check if we should build
         run: |
+          set +e # Allow commands to fail
           echo "LATEST_UPSTREAM_TAG=$(./get_latest_upstream_tag.sh)" >> $GITHUB_ENV
           ./should_build.sh
           if [ $? -eq 0 ]; then
