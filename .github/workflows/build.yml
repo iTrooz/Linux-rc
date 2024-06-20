@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0 # See https://github.com/actions/checkout/issues/1781
           fetch-tags: true
 
       - name: Check if we should build
