@@ -1,5 +1,8 @@
 name: Build and Upload Artifact
 on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,19 +14,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check if we should build
+        id: check_build
+        run: |
+          ./should_build.sh
+          if [ $? -eq 0 ]; then
+            echo "::set-output name=should_build::true"
+          else
+            echo "::set-output name=should_build::false"
+          fi
+
       - name: Install Dependencies
+        if: steps.check_build.outputs.should_build == 'true'
         run: sudo apt-get install -y libelf-dev
 
       - name: Setup ccache
+        if: steps.check_build.outputs.should_build == 'true'
         uses:  hendrikmuhs/ccache-action@v1
         with:
           key: linux-${{ github.run_id }}
           restore-keys: linux
 
       - name: Clone Linux Kernel
-        run: git clone --depth 1 https://github.com/torvalds/linux linux
+        if: steps.check_build.outputs.should_build == 'true'
+        run: git clone --depth 1 --branch $(./get_latest_upstream_tag.sh) https://github.com/torvalds/linux linux
 
       - name: Build Linux Kernel
+        if: steps.check_build.outputs.should_build == 'true'
         run: |
           cd linux
           make defconfig
@@ -31,10 +48,12 @@ jobs:
           make -j $(nproc)
 
       - name: Package Linux Kernel
+        if: steps.check_build.outputs.should_build == 'true'
         run: |
           ./package.sh
       
       - name: Upload Artifact
+        if: steps.check_build.outputs.should_build == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: linux-kernel
