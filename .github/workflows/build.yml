@@ -1,4 +1,4 @@
-name: Build and Upload Artifact
+name: Build and upload if new version
 on:
   schedule:
     - cron: '0 0 * * *'
