@@ -49,8 +49,10 @@ jobs:
       - name: Build Linux Kernel
         if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
+          ./get_config.sh
+          mv .config linux/.config
           cd linux
-          make defconfig
+          make olddefconfig # Apply new default values for new config options
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
           make -j $(nproc)
 

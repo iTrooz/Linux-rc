@@ -1,3 +1,4 @@
 linux
 package
 *.tar.gz
+.config
