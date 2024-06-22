@@ -13,8 +13,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SHOULD_BUILD: true
+    # env:
+    #   SHOULD_BUILD: true
 
     steps:
       # See https://github.com/easimon/maximize-build-space/issues/45 and repository
@@ -38,15 +38,15 @@ jobs:
       - name: Get latest upstream tag
         run: echo "LATEST_UPSTREAM_TAG=$(./get_latest_upstream_tag.sh)" >> $GITHUB_ENV
 
-      # - name: Check if we should build
-      #   run: |
-      #     set +e # Allow commands to fail
-      #     ./should_build.sh
-      #     if [ $? -eq 0 ]; then
-      #       echo "SHOULD_BUILD=true" >> $GITHUB_ENV
-      #     else
-      #       echo "SHOULD_BUILD=false" >> $GITHUB_ENV
-      #     fi
+      - name: Check if we should build
+        run: |
+          set +e # Allow commands to fail
+          ./should_build.sh
+          if [ $? -eq 0 ]; then
+            echo "SHOULD_BUILD=true" >> $GITHUB_ENV
+          else
+            echo "SHOULD_BUILD=false" >> $GITHUB_ENV
+          fi
 
       - name: Install Dependencies
         if: ${{ env.SHOULD_BUILD == 'true' }}
