@@ -20,10 +20,12 @@ jobs:
           fetch-depth: 0 # See https://github.com/actions/checkout/issues/1781
           fetch-tags: true
 
+      - name: Get latest upstream tag
+        run: echo "LATEST_UPSTREAM_TAG=$(./get_latest_upstream_tag.sh)" >> $GITHUB_ENV
+
       - name: Check if we should build
         run: |
           set +e # Allow commands to fail
-          echo "LATEST_UPSTREAM_TAG=$(./get_latest_upstream_tag.sh)" >> $GITHUB_ENV
           ./should_build.sh
           if [ $? -eq 0 ]; then
             echo "SHOULD_BUILD=true" >> $GITHUB_ENV
