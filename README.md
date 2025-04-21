@@ -2,8 +2,11 @@
 
 This repository will automatically build binaries from Linux RCs (Release Candidates)
 
-# Installation for Arch Linux
-- Decompress release a tar file in your filesystem with `sudo tar -hxvf linuxRC.tar.gz -C / --no-same-owner`
+# Usage
+## Building
+To build the latest rc, check [the CI (not enabled in this repo anymore, but you can copy what it does)](.github/workflows/build.yml)
+## Installation (for Arch Linux)
+- Decompress the tar file in your filesystem with `sudo tar -hxvf linuxRC.tar.gz -C / --no-same-owner`
   - Notes:
   - `-h` follows symlinks
   - `--no-same-owner` makes root the owner of the extracted files
