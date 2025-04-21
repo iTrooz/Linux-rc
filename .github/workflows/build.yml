@@ -91,6 +91,3 @@ jobs:
         with:
           artifacts: linuxRC.tar.gz
           tag: ${{ env.LATEST_UPSTREAM_TAG }}
-
-      - name: Keep the repository active
-        uses: gautamkrishnar/keepalive-workflow@v2
